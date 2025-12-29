@@ -16,6 +16,7 @@ const ChatArea = ({ messages, onSendMessage, isLoading }: ChatAreaProps) => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
   return (
     <div className="flex flex-col h-full">
       {/* Messages */}
@@ -23,7 +24,7 @@ const ChatArea = ({ messages, onSendMessage, isLoading }: ChatAreaProps) => {
         {messages.length === 0 ? (
           <div className="h-full flex items-center justify-center">
             <div className="text-center max-w-md px-4">
-              <div className="w-16 h-16 bg-linear-to-br from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <MessageSquare className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -43,7 +44,7 @@ const ChatArea = ({ messages, onSendMessage, isLoading }: ChatAreaProps) => {
             {isLoading && (
               <div className="py-6 px-4 bg-white">
                 <div className="max-w-3xl mx-auto flex gap-4">
-                  <div className="shrink-0 w-8 h-8 rounded-full bg-linear-to-br from-orange-400 to-pink-500 flex items-center justify-center text-sm font-medium text-white">
+                  <div className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-sm font-medium text-white">
                     C
                   </div>
                   <div className="flex-1">
