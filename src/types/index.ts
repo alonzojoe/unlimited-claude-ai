@@ -9,4 +9,11 @@ export interface Chat {
     title: string;
     preview: string;
     messages: Message[];
+    model?: string;
 }
+
+export type ClaudeModel =
+    | 'claude-sonnet-4-5'
+    | 'claude-sonnet-4'
+    | 'claude-opus-4'
+    | 'claude-haiku-4';
