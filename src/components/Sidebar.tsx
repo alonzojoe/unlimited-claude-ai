@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, Plus, Search, MessageSquare, Trash2, Settings } from "lucide-react";
 import { Chat } from "../types";
+import ClaudeLogo from "../assets/images/unli-claudelogo.png";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -47,7 +48,17 @@ const Sidebar = ({
           {/* Header */}
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Chats</h2>
+              <div className="flex items-center gap-3">
+                <img
+                  className="h-auto w-7.5"
+                  src={ClaudeLogo}
+                  alt="claude logo"
+                />
+                <h2 className="text-lg font-semibold text-[#2885C0]">
+                  Unlimited <span className="text-[#591B7C]">Claude</span>
+                </h2>
+              </div>
+
               <button
                 onClick={onClose}
                 className="lg:hidden p-1 hover:bg-gray-100 rounded"
