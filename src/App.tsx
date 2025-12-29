@@ -1,35 +1,127 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import ChatArea from "./components/ChatArea";
+import type { Chat, Message } from "./types";
+import { Menu } from "lucide-react";
+import Sidebar from "./components/Sidebar";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [chats, setChats] = useState<Chat[]>([
+    {
+      id: "1",
+      title: "Welcome Chat",
+      preview: "How can I help you today?",
+      messages: [],
+    },
+  ]);
+  const [currentChatId, setCurrentChatId] = useState<string>("1");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const currentChat = chats.find((chat) => chat.id === currentChatId);
+
+  const handleSendMessage = (content: string): void => {
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content,
+    };
+
+    setChats((prev) =>
+      prev.map((chat) =>
+        chat.id === currentChatId
+          ? {
+              ...chat,
+              messages: [...chat.messages, newMessage], // Changed from 'message' to 'messages'
+              preview: content.slice(0, 50),
+            }
+          : chat
+      )
+    );
+
+    // Simulate AI response
+    setIsLoading(true);
+    setTimeout(() => {
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content:
+          "I'm a demo UI. In a real application, this would be Claude's response to your message!",
+      };
+
+      setChats((prev) =>
+        prev.map((chat) =>
+          chat.id === currentChatId
+            ? { ...chat, messages: [...chat.messages, aiMessage] }
+            : chat
+        )
+      );
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleNewChat = (): void => {
+    const newChat: Chat = {
+      id: Date.now().toString(),
+      title: `Chat ${chats.length + 1}`,
+      preview: "New conversation",
+      messages: [],
+    };
+    setChats((prev) => [newChat, ...prev]);
+    setCurrentChatId(newChat.id);
+    setSidebarOpen(false);
+  };
+
+  const handleDeleteChat = (chatId: string): void => {
+    if (chats.length === 1) return;
+    setChats((prev) => prev.filter((chat) => chat.id !== chatId));
+    if (currentChatId === chatId) {
+      const remainingChat = chats.find((chat) => chat.id !== chatId);
+      if (remainingChat) {
+        setCurrentChatId(remainingChat.id);
+      }
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="flex h-screen bg-gray-50">
+      {/* Sidebar */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        chats={chats}
+        currentChatId={currentChatId}
+        onSelectChat={(id: string) => {
+          setCurrentChatId(id);
+          setSidebarOpen(false);
+        }}
+        onNewChat={handleNewChat}
+        onDeleteChat={handleDeleteChat}
+      />
 
-export default App
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-900">
+            {currentChat?.title || "Claude"}
+          </h1>
+        </header>
+
+        {/* Chat */}
+        <ChatArea
+          messages={currentChat?.messages || []}
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default App;
