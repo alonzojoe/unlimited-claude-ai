@@ -1,7 +1,8 @@
+import Sidebar from "./components/Sidebar";
 const App = () => {
   return (
     <div className="max-w-7xl">
-      <h1 className="text-red-500">Unlimited Claude</h1>
+      <Sidebar isOpen={false} chats={[]} />
     </div>
   );
 };
