@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Menu } from "lucide-react";
 import Sidebar from "./components/Sidebar";
 import ChatArea from "./components/ChatArea";
@@ -6,7 +6,7 @@ import { ModelSelector } from "./components/ModelSelector";
 import { chatWithClaude } from "./services/puterAI";
 import type { Chat, Message, ClaudeModel } from "./types";
 
-const App = () => {
+const App: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [selectedModel, setSelectedModel] =
     useState<ClaudeModel>("claude-sonnet-4-5");
@@ -48,38 +48,45 @@ const App = () => {
     setIsLoading(true);
 
     try {
-      // Create AI message with empty content
       const aiMessageId = (Date.now() + 1).toString();
-      const aiMessage: Message = {
-        id: aiMessageId,
-        role: "assistant",
-        content: "",
-      };
-
-      // Add empty AI message
-      setChats((prev) =>
-        prev.map((chat) =>
-          chat.id === currentChatId
-            ? { ...chat, messages: [...chat.messages, aiMessage] }
-            : chat
-        )
-      );
+      let messageCreated = false;
 
       // Stream the response
       await chatWithClaude(content, selectedModel, (text: string) => {
-        setChats((prev) =>
-          prev.map((chat) => {
-            if (chat.id === currentChatId) {
-              const updatedMessages = chat.messages.map((msg) =>
-                msg.id === aiMessageId
-                  ? { ...msg, content: msg.content + text }
-                  : msg
-              );
-              return { ...chat, messages: updatedMessages };
-            }
-            return chat;
-          })
-        );
+        if (!messageCreated) {
+          // Create the AI message only when we receive first content
+          messageCreated = true;
+          setIsLoading(false);
+
+          const aiMessage: Message = {
+            id: aiMessageId,
+            role: "assistant",
+            content: text,
+          };
+
+          setChats((prev) =>
+            prev.map((chat) =>
+              chat.id === currentChatId
+                ? { ...chat, messages: [...chat.messages, aiMessage] }
+                : chat
+            )
+          );
+        } else {
+          // Update existing message with new text
+          setChats((prev) =>
+            prev.map((chat) => {
+              if (chat.id === currentChatId) {
+                const updatedMessages = chat.messages.map((msg) =>
+                  msg.id === aiMessageId
+                    ? { ...msg, content: msg.content + text }
+                    : msg
+                );
+                return { ...chat, messages: updatedMessages };
+              }
+              return chat;
+            })
+          );
+        }
       });
     } catch (error) {
       console.error("Error sending message:", error);
@@ -97,7 +104,7 @@ const App = () => {
           chat.id === currentChatId
             ? {
                 ...chat,
-                messages: [...chat.messages.slice(0, -1), errorMessage],
+                messages: [...chat.messages, errorMessage],
               }
             : chat
         )
