@@ -11,6 +11,7 @@ import { Copy, Check } from "lucide-react";
 import type { Message } from "../types";
 import ClaudeLogo from "../assets/images/unli-claudelogo.webp";
 import useThemeContext from "../hooks/useThemeContext";
+import { CodeProps } from "react-markdown/lib/ast-to-react";
 
 interface CodeBlockProps {
   language: string;
@@ -106,7 +107,7 @@ const Message = ({ message }: MessageProps) => {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                code({ node, inline, className, children, ...props }) {
+                code({ inline, className, children, ...props }: CodeProps) {
                   const match = /language-(\w+)/.exec(className || "");
                   const value = String(children).replace(/\n$/, "");
 
