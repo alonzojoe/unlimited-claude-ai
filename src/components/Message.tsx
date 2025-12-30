@@ -99,7 +99,7 @@ const Message = ({ message }: MessageProps) => {
 
         {/* Content with Markdown */}
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+          <div className="text-lg font-medium text-gray-900 dark:text-gray-100 mt-0.5">
             Claude
           </div>
           <div className="prose prose-sm max-w-none prose-pre:p-0 prose-pre:m-0 dark:prose-invert">
