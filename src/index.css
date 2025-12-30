@@ -2,16 +2,24 @@
 
 @theme {
   --color-primary: #6366f1;
-  --color-bg-main: #f9fafb;
-  --color-bg-sidebar: #ffffff;
-  --color-bg-chat: #ffffff;
+  --color-bg-main-light: #f9fafb;
+  --color-bg-main-dark: #212121;
+  --color-bg-sidebar-light: #ffffff;
+  --color-bg-sidebar-dark: #2a2a2a;
+  --color-bg-chat-light: #ffffff;
+  --color-bg-chat-dark: #1a1a1a;
   --color-bg-message-user: #f3f4f6;
   --color-bg-message-assistant: #ffffff;
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-border: #e5e7eb;
-  --color-hover: #f3f4f6;
+  --color-text-primary-light: #111827;
+  --color-text-primary-dark: #f3f4f6;
+  --color-text-secondary-light: #6b7280;
+  --color-text-secondary-dark: #9ca3af;
+  --color-border-light: #e5e7eb;
+  --color-border-dark: #3a3a3a;
+  --color-hover-light: #f3f4f6;
+  --color-hover-dark: #3a3a3a;
 }
+
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -22,13 +30,25 @@
   background: #f1f1f1;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 4px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
 }
 
 
