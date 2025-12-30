@@ -14,7 +14,7 @@ Enjoy a modern UI, streaming responses, and developer-friendly artifact renderin
 ## 🚀 Live Demo
 
 🎥 **Demo Preview**  
-[My link for the gif]
+![Claude Demo](claude-demo.gif)
 
 ---
 
@@ -24,7 +24,7 @@ No worries!
 Just click **Reset Quota** in the lower-left corner of the sidebar.
 
 🖼️  
-[link image here]
+![Reset Quota](reset-quota.png)
 
 ---
 
@@ -118,6 +118,6 @@ http://localhost:5173
 
 ## 📝 Note
 
-- **Important:** This interface does not use a pirated or reverse-engineered API. It uses the official, legitimate Puter.js library.
+**Important:** This interface does not use a pirated or reverse-engineered API. It uses the official, legitimate Puter.js library.
 
 ---
