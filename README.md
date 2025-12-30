@@ -24,7 +24,7 @@ No worries!
 Just click **Reset Quota** in the lower-left corner of the sidebar.
 
 🖼️  
-![Reset Quota](reset-quota.png)
+![Reset Quota](reset-quota.PNG)
 
 ---
 
