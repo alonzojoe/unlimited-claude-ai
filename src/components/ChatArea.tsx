@@ -3,6 +3,7 @@ import type { Message as IMessage } from "../types";
 import Message from "./Message";
 import ChatInput from "./ChatInput";
 import { MessageSquare } from "lucide-react";
+import ClaudeLogo from "../assets/images/unli-claudelogo.webp";
 
 interface ChatAreaProps {
   messages: IMessage[];
@@ -44,14 +45,21 @@ const ChatArea = ({ messages, onSendMessage, isLoading }: ChatAreaProps) => {
             {isLoading && (
               <div className="py-6 px-4 bg-white">
                 <div className="max-w-3xl mx-auto flex gap-4">
-                  <div className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-sm font-medium text-white">
-                    C
+                  <div className="shrink-0 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-white">
+                    <img
+                      src={ClaudeLogo}
+                      className="w-5 h-auto"
+                      alt="claude-logo"
+                    />
                   </div>
                   <div className="flex-1">
                     <div className="text-sm font-medium text-gray-900 mb-1">
                       Claude
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex items-center gap-1">
+                      <span className="italic text-sm text-gray-500 mr-2">
+                        Claude is typing
+                      </span>
                       <div
                         className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                         style={{ animationDelay: "0ms" }}

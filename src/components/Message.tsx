@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Copy, Check } from "lucide-react";
 import type { Message } from "../types";
+import ClaudeLogo from "../assets/images/unli-claudelogo.webp";
 
 interface CodeBlockProps {
   language: string;
@@ -86,8 +87,8 @@ const Message = ({ message }: MessageProps) => {
     <div className="py-6 px-4 bg-white">
       <div className="max-w-3xl mx-auto flex gap-4">
         {/* Avatar */}
-        <div className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-sm font-medium text-white">
-          C
+        <div className="shrink-0 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-white">
+          <img src={ClaudeLogo} className="w-5 h-auto" alt="claude-logo" />
         </div>
 
         {/* Content with Markdown */}
