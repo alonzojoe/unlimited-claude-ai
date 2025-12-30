@@ -3,10 +3,13 @@ import { Menu } from "lucide-react";
 import Sidebar from "./components/Sidebar";
 import ChatArea from "./components/ChatArea";
 import { ModelSelector } from "./components/ModelSelector";
+import { DarkModeToggle } from "./components/DarkModeToggle";
+import useTheme from "./hooks/useTheme";
 import { chatWithClaude } from "./services/puterAI";
 import type { Chat, Message, ClaudeModel } from "./types";
 
 const App: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [selectedModel, setSelectedModel] =
     useState<ClaudeModel>("claude-sonnet-4-5");
@@ -31,7 +34,6 @@ const App: React.FC = () => {
       content,
     };
 
-    // Add user message
     setChats((prev) =>
       prev.map((chat) =>
         chat.id === currentChatId
@@ -51,10 +53,8 @@ const App: React.FC = () => {
       const aiMessageId = (Date.now() + 1).toString();
       let messageCreated = false;
 
-      // Stream the response
       await chatWithClaude(content, selectedModel, (text: string) => {
         if (!messageCreated) {
-          // Create the AI message only when we receive first content
           messageCreated = true;
           setIsLoading(false);
 
@@ -72,7 +72,6 @@ const App: React.FC = () => {
             )
           );
         } else {
-          // Update existing message with new text
           setChats((prev) =>
             prev.map((chat) => {
               if (chat.id === currentChatId) {
@@ -91,7 +90,6 @@ const App: React.FC = () => {
     } catch (error) {
       console.error("Error sending message:", error);
 
-      // Show error message
       const errorMessage: Message = {
         id: (Date.now() + 2).toString(),
         role: "assistant",
@@ -102,10 +100,7 @@ const App: React.FC = () => {
       setChats((prev) =>
         prev.map((chat) =>
           chat.id === currentChatId
-            ? {
-                ...chat,
-                messages: [...chat.messages, errorMessage],
-              }
+            ? { ...chat, messages: [...chat.messages, errorMessage] }
             : chat
         )
       );
@@ -142,7 +137,6 @@ const App: React.FC = () => {
     setCurrentChatId(id);
     setSidebarOpen(false);
 
-    // Update selected model based on chat's model
     const chat = chats.find((c) => c.id === id);
     if (chat?.model) {
       setSelectedModel(chat.model as ClaudeModel);
@@ -150,7 +144,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-[#212121]">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -165,24 +159,29 @@ const App: React.FC = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3">
+        <header className="flex-shrink-0 bg-white dark:bg-[#2a2a2a] border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
+              className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-5 h-5 text-gray-900 dark:text-gray-100" />
             </button>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {currentChat?.title || "Claude"}
             </h1>
           </div>
 
-          {/* Model Selector */}
-          <ModelSelector
-            selectedModel={selectedModel}
-            onSelectModel={setSelectedModel}
-          />
+          <div className="flex items-center gap-2">
+            {/* Dark Mode Toggle */}
+            <DarkModeToggle theme={theme} onToggle={toggleTheme} />
+
+            {/* Model Selector */}
+            <ModelSelector
+              selectedModel={selectedModel}
+              onSelectModel={setSelectedModel}
+            />
+          </div>
         </header>
 
         {/* Chat */}
