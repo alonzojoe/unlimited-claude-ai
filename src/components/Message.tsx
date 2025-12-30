@@ -90,7 +90,7 @@ const Message = ({ message }: MessageProps) => {
 
   // Assistant message - full width with markdown
   return (
-    <div className="py-6 px-4 bg-white dark:bg-[#2a2a2a]">
+    <div className="py-6 px-4 bg-white dark:bg-[#212121]">
       <div className="max-w-3xl mx-auto flex gap-4">
         {/* Avatar */}
         <div className="shrink-0 w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm font-medium text-white">
