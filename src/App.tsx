@@ -1,17 +1,22 @@
 import { useState } from "react";
-import ChatArea from "./components/ChatArea";
-import type { Chat, Message } from "./types";
 import { Menu } from "lucide-react";
 import Sidebar from "./components/Sidebar";
+import ChatArea from "./components/ChatArea";
+import { ModelSelector } from "./components/ModelSelector";
+import { chatWithClaude } from "./services/puterAI";
+import type { Chat, Message, ClaudeModel } from "./types";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [selectedModel, setSelectedModel] =
+    useState<ClaudeModel>("claude-sonnet-4-5");
   const [chats, setChats] = useState<Chat[]>([
     {
       id: "1",
       title: "Welcome Chat",
       preview: "How can I help you today?",
       messages: [],
+      model: "claude-sonnet-4-5",
     },
   ]);
   const [currentChatId, setCurrentChatId] = useState<string>("1");
@@ -19,35 +24,39 @@ const App = () => {
 
   const currentChat = chats.find((chat) => chat.id === currentChatId);
 
-  const handleSendMessage = (content: string): void => {
+  const handleSendMessage = async (content: string): Promise<void> => {
     const newMessage: Message = {
       id: Date.now().toString(),
       role: "user",
       content,
     };
 
+    // Add user message
     setChats((prev) =>
       prev.map((chat) =>
         chat.id === currentChatId
           ? {
               ...chat,
-              messages: [...chat.messages, newMessage], // Changed from 'message' to 'messages'
+              messages: [...chat.messages, newMessage],
               preview: content.slice(0, 50),
+              model: selectedModel,
             }
           : chat
       )
     );
 
-    // Simulate AI response
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      // Create AI message with empty content
+      const aiMessageId = (Date.now() + 1).toString();
       const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: aiMessageId,
         role: "assistant",
-        content:
-          "I'm a demo UI. In a real application, this would be Claude's response to your message!",
+        content: "",
       };
 
+      // Add empty AI message
       setChats((prev) =>
         prev.map((chat) =>
           chat.id === currentChatId
@@ -55,8 +64,47 @@ const App = () => {
             : chat
         )
       );
+
+      // Stream the response
+      await chatWithClaude(content, selectedModel, (text: string) => {
+        setChats((prev) =>
+          prev.map((chat) => {
+            if (chat.id === currentChatId) {
+              const updatedMessages = chat.messages.map((msg) =>
+                msg.id === aiMessageId
+                  ? { ...msg, content: msg.content + text }
+                  : msg
+              );
+              return { ...chat, messages: updatedMessages };
+            }
+            return chat;
+          })
+        );
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+
+      // Show error message
+      const errorMessage: Message = {
+        id: (Date.now() + 2).toString(),
+        role: "assistant",
+        content:
+          "Sorry, there was an error processing your request. Please try again.",
+      };
+
+      setChats((prev) =>
+        prev.map((chat) =>
+          chat.id === currentChatId
+            ? {
+                ...chat,
+                messages: [...chat.messages.slice(0, -1), errorMessage],
+              }
+            : chat
+        )
+      );
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleNewChat = (): void => {
@@ -65,6 +113,7 @@ const App = () => {
       title: `Chat ${chats.length + 1}`,
       preview: "New conversation",
       messages: [],
+      model: selectedModel,
     };
     setChats((prev) => [newChat, ...prev]);
     setCurrentChatId(newChat.id);
@@ -82,6 +131,17 @@ const App = () => {
     }
   };
 
+  const handleSelectChat = (id: string): void => {
+    setCurrentChatId(id);
+    setSidebarOpen(false);
+
+    // Update selected model based on chat's model
+    const chat = chats.find((c) => c.id === id);
+    if (chat?.model) {
+      setSelectedModel(chat.model as ClaudeModel);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
@@ -90,10 +150,7 @@ const App = () => {
         onClose={() => setSidebarOpen(false)}
         chats={chats}
         currentChatId={currentChatId}
-        onSelectChat={(id: string) => {
-          setCurrentChatId(id);
-          setSidebarOpen(false);
-        }}
+        onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
         onDeleteChat={handleDeleteChat}
       />
@@ -101,16 +158,24 @@ const App = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-          <h1 className="text-lg font-semibold text-gray-900">
-            {currentChat?.title || "Claude"}
-          </h1>
+        <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              {currentChat?.title || "Claude"}
+            </h1>
+          </div>
+
+          {/* Model Selector */}
+          <ModelSelector
+            selectedModel={selectedModel}
+            onSelectModel={setSelectedModel}
+          />
         </header>
 
         {/* Chat */}
