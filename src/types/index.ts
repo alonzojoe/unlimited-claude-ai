@@ -20,3 +20,8 @@ export type ClaudeModel =
 
 
 export type Theme = 'light' | 'dark'
+
+export interface IThemeContext {
+    theme: Theme;
+    toggleTheme: () => void;
+}

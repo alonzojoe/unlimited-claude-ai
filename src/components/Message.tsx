@@ -10,6 +10,7 @@ import {
 import { Copy, Check } from "lucide-react";
 import type { Message } from "../types";
 import ClaudeLogo from "../assets/images/unli-claudelogo.webp";
+import useTheme from "../hooks/useTheme";
 
 interface CodeBlockProps {
   language: string;
@@ -18,7 +19,7 @@ interface CodeBlockProps {
 
 const CodeBlock = ({ language, value }: CodeBlockProps) => {
   const [copied, setCopied] = useState(false);
-  const isDark = document.documentElement.classList.contains("dark");
+  const { theme } = useTheme();
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(value);
@@ -49,7 +50,7 @@ const CodeBlock = ({ language, value }: CodeBlockProps) => {
       </div>
       <SyntaxHighlighter
         language={language}
-        style={isDark ? oneDark : oneLight}
+        style={theme === "dark" ? oneDark : oneLight}
         customStyle={{
           margin: 0,
           borderTopLeftRadius: 0,
