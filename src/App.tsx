@@ -150,7 +150,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -163,9 +163,9 @@ const App: React.FC = () => {
       />
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3">
+        <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -186,11 +186,13 @@ const App: React.FC = () => {
         </header>
 
         {/* Chat */}
-        <ChatArea
-          messages={currentChat?.messages || []}
-          onSendMessage={handleSendMessage}
-          isLoading={isLoading}
-        />
+        <div className="flex-1 overflow-hidden">
+          <ChatArea
+            messages={currentChat?.messages || []}
+            onSendMessage={handleSendMessage}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
     </div>
   );
