@@ -33,7 +33,7 @@ const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
   };
 
   return (
-    <div className="border-t border-gray-200 bg-white">
+    <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#2a2a2a]">
       <div className="max-w-3xl mx-auto p-4">
         <div className="relative">
           <textarea
@@ -46,18 +46,18 @@ const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
             placeholder="Message Claude..."
             disabled={disabled}
             rows={1}
-            className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             style={{ maxHeight: "200px" }}
           />
           <button
             onClick={handleSubmit}
             disabled={!message.trim() || disabled}
-            className="absolute right-2 bottom-2 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="absolute right-4 bottom-3.5 p-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-xs text-gray-500 text-center mt-2">
+        <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-2">
           Claude can make mistakes. Please verify important information.
         </p>
       </div>

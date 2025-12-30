@@ -17,3 +17,11 @@ export type ClaudeModel =
     | 'claude-sonnet-4'
     | 'claude-opus-4'
     | 'claude-haiku-4';
+
+
+export type Theme = 'light' | 'dark'
+
+export interface IThemeContext {
+    theme: Theme;
+    toggleTheme: () => void;
+}

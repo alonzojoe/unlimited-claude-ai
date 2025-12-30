@@ -1,5 +1,6 @@
+// components/Sidebar.tsx
 import { useState } from "react";
-import { X, Plus, Search, MessageSquare, Trash2, Settings } from "lucide-react";
+import { X, Plus, Search, MessageSquare, Trash2, Orbit } from "lucide-react";
 import { Chat } from "../types";
 import ClaudeLogo from "../assets/images/unli-claudelogo.png";
 
@@ -28,25 +29,32 @@ const Sidebar = ({
     chat.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const reset = () => {
+    //removes token
+    window.localStorage.removeItem("puter.app.id");
+    window.localStorage.removeItem("puter.auth.token");
+    window.location.reload();
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 overlay bg-opacity-50 z-40 lg:hidden"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#2a2a2a] border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <img
@@ -54,21 +62,24 @@ const Sidebar = ({
                   src={ClaudeLogo}
                   alt="claude logo"
                 />
-                <h2 className="text-lg font-semibold text-[#2885C0]">
-                  Unlimited <span className="text-[#591B7C]">Claude</span>
+                <h2 className="text-lg font-semibold text-[#2885C0] dark:text-[#3b9dd8]">
+                  Unlimited{" "}
+                  <span className="text-[#591B7C] dark:text-[#8b3ba8]">
+                    Claude
+                  </span>
                 </h2>
               </div>
 
               <button
                 onClick={onClose}
-                className="lg:hidden p-1 hover:bg-gray-100 rounded"
+                className="lg:hidden p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 text-gray-900 dark:text-gray-100" />
               </button>
             </div>
             <button
               onClick={onNewChat}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
             >
               <Plus className="w-4 h-4" />
               New Chat
@@ -76,9 +87,9 @@ const Sidebar = ({
           </div>
 
           {/* Search */}
-          <div className="p-3 border-b border-gray-200">
+          <div className="p-3 border-b border-gray-200 dark:border-gray-700">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
               <input
                 type="text"
                 placeholder="Search chats..."
@@ -86,7 +97,7 @@ const Sidebar = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSearchQuery(e.target.value)
                 }
-                className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full pl-9 pr-3 py-2 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
@@ -94,7 +105,7 @@ const Sidebar = ({
           {/* Chat List */}
           <div className="flex-1 overflow-y-auto">
             {filteredChats.length === 0 ? (
-              <div className="p-4 text-center text-gray-500 text-sm">
+              <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-sm">
                 No chats found
               </div>
             ) : (
@@ -104,8 +115,8 @@ const Sidebar = ({
                     key={chat.id}
                     className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer mb-1 transition-colors ${
                       currentChatId === chat.id
-                        ? "bg-indigo-50 text-indigo-700"
-                        : "hover:bg-gray-100 text-gray-700"
+                        ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                     }`}
                     onClick={() => onSelectChat(chat.id)}
                   >
@@ -114,7 +125,7 @@ const Sidebar = ({
                       <p className="text-sm font-medium truncate">
                         {chat.title}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                         {chat.preview}
                       </p>
                     </div>
@@ -123,9 +134,9 @@ const Sidebar = ({
                         e.stopPropagation();
                         onDeleteChat(chat.id);
                       }}
-                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 rounded transition-opacity"
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-opacity"
                     >
-                      <Trash2 className="w-3.5 h-3.5 text-gray-600" />
+                      <Trash2 className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
                     </button>
                   </div>
                 ))}
@@ -134,10 +145,13 @@ const Sidebar = ({
           </div>
 
           {/* Footer */}
-          <div className="p-3 border-t border-gray-200">
-            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-              <Settings className="w-4 h-4" />
-              Settings
+          <div className="p-3 border-t border-gray-200 dark:border-gray-700">
+            <button
+              onClick={reset}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              <Orbit className="w-4 h-4" />
+              Reset Quota
             </button>
           </div>
         </div>

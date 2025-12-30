@@ -1,50 +1,134 @@
-# React + TypeScript + Vite
+### Free Self-Hosted Unlimited Claude AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Powered by **@heyputer/puter.js**
 
-Currently, two official plugins are available:
+<p align="center">
+  <img src="public/logo.webp" alt="Unlimited Claude Logo" width="160" />
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A free, self-hosted Claude-style AI chat interface with unlimited usage powered by Puter.js.  
+Enjoy a modern UI, streaming responses, and developer-friendly artifact rendering without API costs.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🚀 Live Demo
 
-- Configure the top-level `parserOptions` property like this:
+🎥 **Demo Preview**  
+![Claude Demo](claude-demo.gif)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## ⚠️ Reached the quota?
+
+No worries!  
+Just click **Reset Quota** in the lower-left corner of the sidebar.
+
+🖼️  
+![Reset Quota](reset-quota.PNG)
+
+---
+
+## 🚀 Features
+
+- **100% Free Access**  
+  Leverages the free tier of `@heyputer/puter.js` to interact with Claude at no cost.
+
+- **Modern UI**  
+  Clean, responsive interface inspired by the official Claude UI.  
+  Includes **light & dark mode** using **Tailwind CSS v4+**.
+
+- **Artifact Generation**  
+  Automatically renders code blocks into beautiful, interactive artifact canvases with:
+
+  - Syntax highlighting
+  - Copy
+  - Download
+  - Paste-ready output
+
+- **Streaming Responses**  
+  Claude responses appear in real-time, just like the official experience.
+
+- **Local Chat History**  
+  Recent conversations are stored locally and cleared when the page refreshes.
+
+---
+
+## 🧩 Available Models
+
+| Model Name        | Description                              |
+| ----------------- | ---------------------------------------- |
+| Claude Sonnet 4.5 | Most intelligent, best for complex tasks |
+| Claude Sonnet 4   | Balanced performance and speed           |
+| Claude Opus 4     | Advanced reasoning capabilities          |
+| Claude Haiku 4    | Fast and efficient                       |
+
+---
+
+## ⭐ Support
+
+If you find this project useful, consider giving it a ⭐ on GitHub!
+Contributions and feedback are always welcome.
+
+---
+
+## ❓ How It Works
+
+This project uses the **Services API** from `@heyputer/puter.js`.
+
+- The prompt flow is implemented from the **ChatInput** component to the **Message** component.
+- Optimized for developers with:
+  - Syntax-highlighted responses
+  - Code-first rendering
+  - Copy-paste ready outputs
+- Responses are streamed live for a smooth, natural AI experience.
+
+---
+
+## 📦 Clone the Project
+
+### ✅ Prerequisites
+
+- **Node.js** installed on your local machine  
+  _(Recommended: v20+)_
+
+### 📥 Clone Repository
+
+```bash
+git clone https://github.com/alonzojoe/unlimited-claude-ai.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 📂 Install Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+cd unlimited-claude-ai
+npm install
 ```
+
+### ▶️ Run the Project
+
+```bash
+npm run dev
+```
+
+### 🌐 Open in Browser
+
+```bash
+http://localhost:5173
+```
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core**
+  React, TypeScript, Tailwind CSS, Vite, HTML5, CSS3
+- **API Integration**  
+  @heyputer/puter.js
+
+---
+
+## 📝 Note
+
+**Important:** This interface does not use a pirated or reverse-engineered API. It uses the official, legitimate Puter.js library.
+
+---
