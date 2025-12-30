@@ -10,7 +10,7 @@ import {
 import { Copy, Check } from "lucide-react";
 import type { Message } from "../types";
 import ClaudeLogo from "../assets/images/unli-claudelogo.webp";
-import useTheme from "../hooks/useTheme";
+import useThemeContext from "../hooks/useThemeContext";
 
 interface CodeBlockProps {
   language: string;
@@ -19,7 +19,7 @@ interface CodeBlockProps {
 
 const CodeBlock = ({ language, value }: CodeBlockProps) => {
   const [copied, setCopied] = useState(false);
-  const { theme } = useTheme();
+  const { theme } = useThemeContext();
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(value);

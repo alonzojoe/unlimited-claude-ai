@@ -1,15 +1,15 @@
 import React, { useState } from "react";
+import useThemeContext from "./hooks/useThemeContext";
 import { Menu } from "lucide-react";
 import Sidebar from "./components/Sidebar";
 import ChatArea from "./components/ChatArea";
 import { ModelSelector } from "./components/ModelSelector";
 import { DarkModeToggle } from "./components/DarkModeToggle";
-import useTheme from "./hooks/useTheme";
 import { chatWithClaude } from "./services/puterAI";
 import type { Chat, Message, ClaudeModel } from "./types";
 
 const App: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useThemeContext();
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [selectedModel, setSelectedModel] =
     useState<ClaudeModel>("claude-sonnet-4-5");
