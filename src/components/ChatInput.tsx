@@ -52,7 +52,7 @@ const ChatInput = ({ onSend, disabled }: ChatInputProps) => {
           <button
             onClick={handleSubmit}
             disabled={!message.trim() || disabled}
-            className="absolute right-2 bottom-2 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="absolute right-4 bottom-3.5 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-4 h-4" />
           </button>
