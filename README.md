@@ -53,6 +53,17 @@ Just click **Reset Quota** in the lower-left corner of the sidebar.
 
 ---
 
+## 🧩 Available Models
+
+| Model Name        | Description                              |
+| ----------------- | ---------------------------------------- |
+| Claude Sonnet 4.5 | Most intelligent, best for complex tasks |
+| Claude Sonnet 4   | Balanced performance and speed           |
+| Claude Opus 4     | Advanced reasoning capabilities          |
+| Claude Haiku 4    | Fast and efficient                       |
+
+---
+
 ## ⭐ Support
 
 If you find this project useful, consider giving it a ⭐ on GitHub!
