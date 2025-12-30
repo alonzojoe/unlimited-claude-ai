@@ -1,5 +1,3 @@
-# Claude Icon <img src="public/logo.webp" alt="Unlimited Claude Logo" width="160" />
-
 ### Free Self-Hosted Unlimited Claude AI
 
 Powered by **@heyputer/puter.js**
@@ -9,7 +7,7 @@ Powered by **@heyputer/puter.js**
 </p>
 
 A free, self-hosted Claude-style AI chat interface with unlimited usage powered by Puter.js.  
-Enjoy a modern UI, streaming responses, and developer-friendly artifact rendering — all without API costs.
+Enjoy a modern UI, streaming responses, and developer-friendly artifact rendering without API costs.
 
 ---
 
@@ -55,6 +53,13 @@ Just click **Reset Quota** in the lower-left corner of the sidebar.
 
 ---
 
+## ⭐ Support
+
+If you find this project useful, consider giving it a ⭐ on GitHub!
+Contributions and feedback are always welcome.
+
+---
+
 ## ❓ How It Works
 
 This project uses the **Services API** from `@heyputer/puter.js`.
@@ -74,8 +79,6 @@ This project uses the **Services API** from `@heyputer/puter.js`.
 
 - **Node.js** installed on your local machine  
   _(Recommended: v20+)_
-
----
 
 ### 📥 Clone Repository
 
@@ -102,9 +105,19 @@ npm run dev
 http://localhost:5173
 ```
 
+---
+
 ## 🛠️ Tech Stack
 
 - **Core**
   React, TypeScript, Tailwind CSS, Vite, HTML5, CSS3
 - **API Integration**  
   @heyputer/puter.js
+
+---
+
+## 📝 Note
+
+- **Important:** This interface does not use a pirated or reverse-engineered API. It uses the official, legitimate Puter.js library.
+
+---
